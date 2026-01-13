@@ -1,0 +1,11 @@
+from sqlalchemy import Column, String, Boolean
+
+from src.infrastructure.database.models.base import BaseModel
+
+
+class User(BaseModel):
+    __tablename__ = "users"
+
+    username = Column(String, nullable=False, unique=True)
+    password = Column(String, nullable=False)
+    is_active = Column(Boolean, nullable=False, default=True)
