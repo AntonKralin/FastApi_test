@@ -1,10 +1,13 @@
 from fastapi import FastAPI
 import uvicorn
 
-from core.config import server_config
+from core.config import server_config, project_config
 
 
-app = FastAPI()
+app = FastAPI(
+    title=project_config.project_name,
+    version=project_config.project_version,
+)
 
 
 if __name__ == "__main__":

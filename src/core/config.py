@@ -25,6 +25,12 @@ database_config = DatabaseConfig()
 
 
 class ServerConfig:
+    '''
+    host: str listen ip
+    port: int listen port
+    reload: bool reload when code changed
+    '''
+
     def __init__(self):
         self.host = os.getenv('HOST', '0.0.0.0')
         self.port = int(os.getenv('PORT', 8000))
@@ -35,6 +41,12 @@ server_config = ServerConfig()
 
 
 class ProjectConfig:
+    '''
+    project_name: str project name
+    project_version: str project version
+    debug: bool enable debug mode
+    '''
+
     def __init__(self):
         self.project_name = os.getenv('PROJECT_NAME', 'FastAPI')
         self.project_version = os.getenv('PROJECT_VERSION', '0.0.1')
