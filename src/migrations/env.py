@@ -6,9 +6,9 @@ from sqlalchemy import pool
 from alembic import context
 
 # мой импорт настроек
-from src.core.config import database_config
-from src.infrastructure.database.models.base import Base
-from src.infrastructure.database.models.user import User
+from src.settings.config import database_config
+from src.model.base import Base
+from src.model.user import User
 
 
 # this is the Alembic Config object, which provides

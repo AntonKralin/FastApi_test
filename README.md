@@ -1,6 +1,9 @@
 # FastApi_test
 fast api testing
 
+# OpenAPI
+http://0.0.0.0:8000/docs
+
 # Install
 sudo apt-get install libpq-dev python3-dev
 

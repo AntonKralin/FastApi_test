@@ -15,7 +15,7 @@ class BaseRepository(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         self.model = model
         self.session = session
 
-    async def create(self, obj_in: CreateSchemaType) -> ModelType:
+    async def create(self, obj_in: CreateSchemaType):
         db_obj = self.model(**obj_in.model_dump())
         self.session.add(db_obj)
         await self.session.commit()
@@ -27,21 +27,6 @@ class BaseRepository(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         result = await self.session.execute(stmt)
         return result.scalars().first()
 
-    async def get_multi(
-        self,
-        skip: int = 0,
-        limit: int = 100,
-        filters: Optional[Dict[str, Any]] = None,
-    ) -> List[ModelType]:
-        query = select(self.model).offset(skip).limit(limit)
-        if filters:
-            for filter in filters:
-                if hasattr(self.model, filter):
-                    query = query.where(
-                        getattr(self.model, filter) == filters[filter])
-        result = await self.session.execute(query)
-        return result.scalars().all()
-
     async def update(self, id: int, obj_in: UpdateSchemaType) -> ModelType:
         db_obj = await self.get(id)
         for field, value in obj_in.model_dump(exclude_unset=True).items():
@@ -50,3 +35,18 @@ class BaseRepository(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         await self.session.commit()
         await self.session.refresh(db_obj)
         return db_obj
+
+    async def get_multi(
+                            self,
+                            skip: int = 0,
+                            limit: int = 100,
+                            filters: Optional[Dict[str, Any]] = None,
+                        ) -> List[ModelType]:
+        query = select(self.model).offset(skip).limit(limit)
+        if filters:
+            for filter in filters:
+                if hasattr(self.model, filter):
+                    query = query.where(
+                        getattr(self.model, filter) == filters[filter])
+        result = await self.session.execute(query)
+        return result.scalars().all()

@@ -18,7 +18,7 @@ class BaseModel(Base, TimestampMixin):
     id = Column(Integer, primary_key=True)
 
 
-class BaseModelId(Base):
+class BaseModelOnlyId(Base):
     __abstract__ = True
 
     id = Column(Integer, primary_key=True)

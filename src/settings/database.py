@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
 )
 
-from core.config import database_config, project_config
+from settings.config import database_config, project_config
 
 
 engine = create_async_engine(
@@ -22,5 +22,9 @@ AsyncSessionLocal = async_sessionmaker(
 
 
 async def get_session() -> AsyncSession:
-    async with AsyncSessionLocal() as session:
-        yield session
+    try:
+        async with AsyncSessionLocal() as session:
+            yield session
+    except Exception:
+        await session.rollback()
+        raise

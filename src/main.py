@@ -1,13 +1,15 @@
 from fastapi import FastAPI
 import uvicorn
 
-from core.config import server_config, project_config
+from settings.config import server_config, project_config
+from view.v1.v1 import v1_router
 
 
 app = FastAPI(
     title=project_config.project_name,
     version=project_config.project_version,
 )
+app.include_router(prefix='/v1', router=v1_router)
 
 
 if __name__ == "__main__":
