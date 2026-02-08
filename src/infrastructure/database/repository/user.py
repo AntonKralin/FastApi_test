@@ -8,4 +8,9 @@ from src.controllers.model.user import UserPostSchema
 
 
 class UserRepository(BaseRepository[User, UserPostSchema]):
-    pass
+
+    async def get_by_username(self, username: str) -> Optional[User]:
+        """Получение User по username"""
+        query = select(self.model).where(self.model.username == username)
+        result = await self.session.execute(query)
+        return result.scalar_one_or_none()
