@@ -8,6 +8,9 @@ class UserBaseSchema(BaseModel):
     password: str
     is_active: bool
 
+    class Config:
+        from_attributes = True
+
 
 class UserGetSchema(UserBaseSchema):
     id: int
